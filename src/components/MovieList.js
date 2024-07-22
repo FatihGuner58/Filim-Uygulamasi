@@ -63,16 +63,17 @@ const MovieList = () => {
   };
 
   return (
-    <div>
+    <div className="movie-list-container">
       <h2>Popular Movies</h2>
       <div className="filter-section">
         <input
+          className='search-input'
           type="text"
           placeholder="Search Movies"
           value={searchQuery}
           onChange={handleSearchChange}
         />
-        <select value={selectedGenre} onChange={handleGenreChange}>
+        <select className='filter' value={selectedGenre} onChange={handleGenreChange}>
           <option value="">All</option>
           <option value="35">Comedy</option> 
           <option value="18">Drama</option> 
@@ -80,7 +81,10 @@ const MovieList = () => {
         </select>
       </div>
       <div className="movie-list">
-        {(searchQuery ? filteredMovies : movies).map(movie => (
+        {filteredMovies.length === 0 && searchQuery && (
+          <p className="no-movies-found">Belirtilen isimde film bulunamadı.</p>
+        )}
+        {(filteredMovies.length > 0 ? filteredMovies : movies).map(movie => (
           <div key={movie.id} className="movie">
             <Link to={`/movie/${movie.id}`}>
               <img
@@ -100,7 +104,7 @@ const MovieList = () => {
 
       {notification && <div className="notification">{notification}</div>}
 
-      <div>
+      <div className="favorite-movies">
         <h2>Favorite Movies</h2>
         {favorites.length > 0 ? (
           <ul>
